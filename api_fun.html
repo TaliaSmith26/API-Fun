@@ -1,0 +1,133 @@
+<!DOCTYPE html> 
+<html lang="en">
+<html> 
+<head>
+	<meta charset="utf-8">
+    <title>API Fun</title>
+	<style type="text/css">
+		
+		body {
+			background-color: floralwhite; 
+			color: black;
+			font-family:  ;
+			text-align: center;
+			font-family: monospace;
+		}
+		h1 {
+			
+			background-size:1000px 400px;
+			background-transparency: 50%;
+			padding: 60px;
+			margin:  -10px;
+			color:  floralwhite;
+			font-size: 60px;
+			font-weight: bolder ;
+			font-family: Copperplate;
+			background-image: url("nick-noel-GecwRYaolBk-unsplash.jpg");
+		}
+		#answers { 
+			border: 2px solid black;
+
+		 }
+	</style>
+
+	<script>
+		function loadFile() {
+			/* Step 1: Make instance of request object...
+			...to make HTTP request after page is loaded*/
+			request = new XMLHttpRequest();
+			console.log("1 - request object created");
+			// Step 2: Set the URL for the AJAX request to be the JSON file
+			request.open("GET", "http://makeup-api.herokuapp.com/api/v1/products.json?brand=benefit&product_type=mascara", true);
+			console.log("2 - opened request file");
+			// Step 3: set up event handler/callback
+			request.onreadystatechange = function() {
+				console.log("3 - readystatechange event fired.");
+				if (request.readyState == 4 && request.status == 200) {
+					// Step 5: wait for done + success
+					result = request.responseText;
+					makeupProds = JSON.parse(result);
+					strHTML = "<ul>";
+					makeupProds.forEach(function(product) { 
+					  strHTML += "<br>" + product.product_type + ", " + product.name + ", $" + product.price + "<br>";
+					}) 
+					strHTML += "</ul>";
+					document.getElementById("data").innerHTML =strHTML;  
+				}
+				else if (request.readyState == 4 && request.status != 200) {
+				document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
+
+				}
+				else if (request.readyState == 3) {
+					document.getElementById("data").innerHTML = "Too soon!  Try again";
+				}
+			}
+		// Step 4: fire off the HTTP request
+			request.send();
+			console.log("4 - Request sent");
+		}
+
+		function loadFetch() {
+			fetch("http://makeup-api.herokuapp.com/api/v1/products.json?brand=benefit&product_type=mascara").then(function(response){
+				return response.json(); 
+			}).then(function(data){
+				mascaraOne = "<br><br>" + data[0].product_type + ", " + data[0].name + ", $" + data[0].price + "<br>"
+
+					+ "<br>" + data[1].product_type + ", " + data[1].name + ", $" + data[1].price + "<br>"
+
+					+ "<br>" + data[2].product_type + ", " + data[2].name + ", $" + data[2].price + "<br>"
+
+					+ "<br>" + data[3].product_type + ", " + data[3].name + ", $" + data[3].price + "<br>"
+
+					+ "<br>" + data[4].product_type + ", " + data[4].name + ", $" + data[4].price + "<br>"
+
+					+ "<br>" + data[5].product_type + ", " + data[5].name + ", $" + data[5].price + "<br>"; 
+				document.getElementById("fetchedData").innerHTML = mascaraOne;
+			}).catch(function(error){
+				console.error("Something went wrong with retrieving the name!")
+				console.error(error); 
+			}); 
+
+		}
+
+
+	</script>
+</head>
+<body>
+
+	<h1>Makeup API Fun!</h1><br><br><br><br><br>
+	<h3>Click to load <i>Benefit</i>'s mascara products:</h3>
+	<form id="filter">
+				<label for="Mascaras"></label> 
+				<button type="button" onclick="loadFile()";>Benefit Products</button> 
+	</form>
+	<div id="data"></div>
+	<br><br>
+	<h3>Click to fetch <i>Benefit</i>'s mascara products:</h3>
+		<form id="filter">
+				<label for="Mascaras"></label> 
+				<button type="button" onclick="loadFetch()";>Benefit Mascaras</button> 
+	</form>
+		<div id="fetchedData"></div>
+
+
+
+
+	<br><br><br><br><br><br>
+	<div id = answers>
+		<br><h3>Information about the API: </h3> <br>
+		<p> I selected a Makeup API that essentially just searches makeup brands and product info. These products can be filtered by brand, price, product category, tags, and more.
+		<p> I found the API on the website <a href="http://makeup-api.herokuapp.com/" target="_blank">http://makeup-api.herokuapp.com/</a>. </p>
+		<p> For the API request, I used the ?brand=benfit and &product_type=mascara key-value pairs to narrow down the product to one brand and one type. In terms of choosing data from the JSON file, I chose to display the product type, name, and price from the wide range of data provided in the file. </p>
+		<p>This API would be helpful if someone needed to (1) look up or retrieve data on a makeup brand and their product specifications, or (2) the original links to the products - the JSON file provides actual links to both photos and websites!</p>
+		<br>
+	</div>
+	<br><br><br>
+
+</body>
+
+</html>
+
+<!-- api website choice: http://makeup-api.herokuapp.com/ --> 
+<!-- http://makeup-api.herokuapp.com/api/v1/products.json?brand=benefit&product_type=mascara -->
+
