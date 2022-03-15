@@ -38,7 +38,7 @@
 			request = new XMLHttpRequest();
 			console.log("1 - request object created");
 			// Step 2: Set the URL for the AJAX request to be the JSON file
-			request.open("GET", "http://makeup-api.herokuapp.com/api/v1/products.json?brand=benefit&product_type=mascara", true);
+			request.open("GET", "https://makeup-api.herokuapp.com/api/v1/products.json?brand=benefit&product_type=mascara", true);
 			console.log("2 - opened request file");
 			// Step 3: set up event handler/callback
 			request.onreadystatechange = function() {
@@ -68,7 +68,7 @@
 		}
 
 		function loadFetch() {
-			fetch("http://makeup-api.herokuapp.com/api/v1/products.json?brand=benefit&product_type=mascara").then(function(response){
+			fetch("https://makeup-api.herokuapp.com/api/v1/products.json?brand=benefit&product_type=mascara").then(function(response){
 				return response.json(); 
 			}).then(function(data){
 				mascaraOne = "<br><br>" + data[0].product_type + ", " + data[0].name + ", $" + data[0].price + "<br>"
